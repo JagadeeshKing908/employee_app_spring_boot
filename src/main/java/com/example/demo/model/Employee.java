@@ -13,6 +13,14 @@ public class Employee {
 
     private String name;
     private String email;
+
     private String skills;
     private String experience;
+
+    // 🔥 ADD THESE
+    private String password;
+    private String role;
+    private Double salary;
+    private String manager;
+    private String department;
 }

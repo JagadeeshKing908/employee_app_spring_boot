@@ -1,4 +1,7 @@
+/root/employee_app_spring_boot/src/main/java/com/example/demo/model/User.java
 /root/employee_app_spring_boot/src/main/java/com/example/demo/model/Employee.java
+/root/employee_app_spring_boot/src/main/java/com/example/demo/repository/UserRepository.java
+/root/employee_app_spring_boot/src/main/java/com/example/demo/controller/EmployeeController.java
+/root/employee_app_spring_boot/src/main/java/com/example/demo/controller/AuthController.java
 /root/employee_app_spring_boot/src/main/java/com/example/demo/DemoApplication.java
 /root/employee_app_spring_boot/src/main/java/com/example/demo/repository/EmployeeRepository.java
-/root/employee_app_spring_boot/src/main/java/com/example/demo/contoller/EmployeeController.java
