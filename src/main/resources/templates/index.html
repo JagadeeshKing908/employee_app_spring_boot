@@ -11,7 +11,6 @@
             font-family: "Segoe UI", sans-serif;
         }
 
-        /* Navbar */
         .navbar {
             background: linear-gradient(135deg, #1d2b64, #f8cdda);
         }
@@ -19,13 +18,6 @@
         .navbar-brand {
             font-weight: bold;
             color: white !important;
-        }
-
-        /* Cards */
-        .card-box {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
 
         .stat-card {
@@ -38,7 +30,6 @@
         .green { background: linear-gradient(135deg, #43e97b, #38f9d7); }
         .orange { background: linear-gradient(135deg, #fa709a, #fee140); }
 
-        /* Table */
         .table-container {
             background: white;
             padding: 20px;
@@ -54,6 +45,16 @@
         .btn-action {
             border-radius: 8px;
             padding: 4px 10px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -80,9 +81,8 @@
         <span th:text="${message}"></span>
     </div>
 
-    <!-- STATS CARDS -->
+    <!-- STATS -->
     <div class="row mb-4">
-
         <div class="col-md-4">
             <div class="stat-card blue">
                 <h5>Total Employees</h5>
@@ -92,18 +92,17 @@
 
         <div class="col-md-4">
             <div class="stat-card green">
-                <h5>Active System</h5>
-                <h3>Online</h3>
+                <h5>System Status</h5>
+                <h3>Active</h3>
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="stat-card orange">
-                <h5>Department</h5>
-                <h3>IT / DevOps</h3>
+                <h5>Departments</h5>
+                <h3>IT / HR / Finance</h3>
             </div>
         </div>
-
     </div>
 
     <!-- TABLE -->
@@ -111,7 +110,22 @@
 
         <h5 class="mb-3">Employee Records</h5>
 
-        <table class="table table-hover align-middle">
+        <!-- SEARCH + FILTER -->
+        <div class="search-box">
+            <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search employee...">
+
+            <select id="deptFilter" class="form-select">
+                <option value="">All Departments</option>
+                <option>IT</option>
+                <option>Finance</option>
+                <option>HR</option>
+                <option>Marketing</option>
+                <option>Sales</option>
+                <option>DevOps</option>
+            </select>
+        </div>
+
+        <table class="table table-hover align-middle" id="empTable">
 
             <thead>
                 <tr>
@@ -119,6 +133,7 @@
                     <th>Email</th>
                     <th>Skills</th>
                     <th>Experience</th>
+                    <th>Department</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -129,6 +144,10 @@
                     <td th:text="${emp.email}"></td>
                     <td th:text="${emp.skills}"></td>
                     <td th:text="${emp.experience} + ' yrs'"></td>
+
+                    <!-- NEW FIELD -->
+                    <td th:text="${emp.department}">IT</td>
+
                     <td>
                         <a th:href="@{'/edit/' + ${emp.id}}"
                            class="btn btn-warning btn-sm btn-action">Edit</a>
@@ -144,6 +163,31 @@
     </div>
 
 </div>
+
+<!-- SEARCH SCRIPT -->
+<script>
+    const searchInput = document.getElementById("searchInput");
+    const deptFilter = document.getElementById("deptFilter");
+    const table = document.getElementById("empTable");
+
+    function filterTable() {
+        const search = searchInput.value.toLowerCase();
+        const dept = deptFilter.value.toLowerCase();
+
+        for (let row of table.tBodies[0].rows) {
+            let text = row.innerText.toLowerCase();
+            let deptCell = row.cells[4].innerText.toLowerCase();
+
+            let matchesSearch = text.includes(search);
+            let matchesDept = dept === "" || deptCell.includes(dept);
+
+            row.style.display = (matchesSearch && matchesDept) ? "" : "none";
+        }
+    }
+
+    searchInput.addEventListener("keyup", filterTable);
+    deptFilter.addEventListener("change", filterTable);
+</script>
 
 </body>
 </html>

@@ -29,23 +29,22 @@ public class AuthController {
                         HttpSession session,
                         Model model) {
 
-        // FIXED: Optional handling replaced with safe null check
         Employee user = repo.findByEmail(email).orElse(null);
 
-        // validation
-        if (user == null || !user.getPassword().equals(password)) {
+        // VALIDATION (safe null check)
+        if (user == null || user.getPassword() == null || !user.getPassword().equals(password)) {
             model.addAttribute("error", "Invalid credentials");
             return "login";
         }
 
-        // store user in session
+        // STORE SESSION
         session.setAttribute("user", user);
 
-        // ROLE BASED REDIRECTION
+        // ROLE BASED REDIRECT
         if ("ADMIN".equalsIgnoreCase(user.getRole())) {
-            return "redirect:/";
+            return "redirect:/admin";   // ✅ FIXED
         } else {
-            return "redirect:/employee/dashboard";
+            return "redirect:/employee/dashboard";  // ✅ OK
         }
     }
 
