@@ -75,6 +75,7 @@ public class EmployeeController {
                 existing.setManager(emp.getManager());
                 existing.setSalary(emp.getSalary());
                 existing.setRole(emp.getRole());
+		existing.setDesignation(emp.getDesignation());
 
                 // 🔥 PASSWORD SAFE UPDATE (IMPORTANT FIX)
                 if (emp.getPassword() != null && !emp.getPassword().isEmpty()) {

@@ -76,13 +76,9 @@
 
     <h3 class="mb-3">Employee Dashboard</h3>
 
-    <!-- MESSAGE -->
-    <div th:if="${message}" class="alert alert-success">
-        <span th:text="${message}"></span>
-    </div>
-
     <!-- STATS -->
     <div class="row mb-4">
+
         <div class="col-md-4">
             <div class="stat-card blue">
                 <h5>Total Employees</h5>
@@ -103,6 +99,7 @@
                 <h3>IT / HR / Finance</h3>
             </div>
         </div>
+
     </div>
 
     <!-- TABLE -->
@@ -112,6 +109,7 @@
 
         <!-- SEARCH + FILTER -->
         <div class="search-box">
+
             <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search employee...">
 
             <select id="deptFilter" class="form-select">
@@ -123,6 +121,22 @@
                 <option>Sales</option>
                 <option>DevOps</option>
             </select>
+
+            <!-- NEW: Designation Filter -->
+            <select id="desigFilter" class="form-select">
+                <option value="">All Designations</option>
+                <option>Associate Software Engineer</option>
+                <option>Software Engineer</option>
+                <option>Senior Software Engineer</option>
+                <option>Tech Lead</option>
+                <option>Team Lead</option>
+                <option>Project Manager</option>
+                <option>Engineering Manager</option>
+                <option>Business Analyst</option>
+                <option>DevOps Engineer</option>
+                <option>QA Engineer</option>
+            </select>
+
         </div>
 
         <table class="table table-hover align-middle" id="empTable">
@@ -134,19 +148,20 @@
                     <th>Skills</th>
                     <th>Experience</th>
                     <th>Department</th>
+                    <th>Designation</th>
                     <th>Actions</th>
                 </tr>
             </thead>
 
             <tbody>
                 <tr th:each="emp : ${list}">
+
                     <td th:text="${emp.name}"></td>
                     <td th:text="${emp.email}"></td>
                     <td th:text="${emp.skills}"></td>
                     <td th:text="${emp.experience} + ' yrs'"></td>
-
-                    <!-- NEW FIELD -->
-                    <td th:text="${emp.department}">IT</td>
+                    <td th:text="${emp.department}"></td>
+                    <td th:text="${emp.designation}"></td>
 
                     <td>
                         <a th:href="@{'/edit/' + ${emp.id}}"
@@ -155,6 +170,7 @@
                         <a th:href="@{'/delete/' + ${emp.id}}"
                            class="btn btn-danger btn-sm btn-action">Delete</a>
                     </td>
+
                 </tr>
             </tbody>
 
@@ -166,27 +182,38 @@
 
 <!-- SEARCH SCRIPT -->
 <script>
+
     const searchInput = document.getElementById("searchInput");
     const deptFilter = document.getElementById("deptFilter");
+    const desigFilter = document.getElementById("desigFilter");
     const table = document.getElementById("empTable");
 
     function filterTable() {
+
         const search = searchInput.value.toLowerCase();
         const dept = deptFilter.value.toLowerCase();
+        const desig = desigFilter.value.toLowerCase();
 
         for (let row of table.tBodies[0].rows) {
+
             let text = row.innerText.toLowerCase();
+
             let deptCell = row.cells[4].innerText.toLowerCase();
+            let desigCell = row.cells[5].innerText.toLowerCase();
 
             let matchesSearch = text.includes(search);
             let matchesDept = dept === "" || deptCell.includes(dept);
+            let matchesDesig = desig === "" || desigCell.includes(desig);
 
-            row.style.display = (matchesSearch && matchesDept) ? "" : "none";
+            row.style.display =
+                (matchesSearch && matchesDept && matchesDesig) ? "" : "none";
         }
     }
 
     searchInput.addEventListener("keyup", filterTable);
     deptFilter.addEventListener("change", filterTable);
+    desigFilter.addEventListener("change", filterTable);
+
 </script>
 
 </body>

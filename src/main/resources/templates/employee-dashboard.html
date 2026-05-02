@@ -11,37 +11,48 @@
             font-family: "Segoe UI", sans-serif;
         }
 
-        /* Navbar */
         .navbar {
             background: linear-gradient(135deg, #1d2b64, #f8cdda);
         }
 
-        .navbar-brand {
-            font-weight: bold;
-        }
-
-        /* Card */
         .card-box {
             border: none;
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        /* Profile section */
         .profile-header {
             background: linear-gradient(135deg, #4facfe, #00f2fe);
             color: white;
-            padding: 20px;
+            padding: 25px;
             border-radius: 15px 15px 0 0;
         }
 
         .info-label {
             font-weight: 600;
-            color: #555;
+            color: #666;
+            font-size: 13px;
         }
 
         .info-value {
             font-weight: 500;
+            color: #222;
+        }
+
+        .badge-role {
+            background: #1d2b64;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .badge-dept {
+            background: #00c6ff;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
         }
 
         .section-title {
@@ -51,23 +62,11 @@
             color: #1d2b64;
         }
 
-        .form-control {
-            border-radius: 10px;
-        }
-
         .btn-update {
             background: linear-gradient(135deg, #00c6ff, #0072ff);
             border: none;
             border-radius: 10px;
             font-weight: bold;
-        }
-
-        .btn-update:hover {
-            opacity: 0.9;
-        }
-
-        .logout-btn {
-            margin-top: 20px;
         }
     </style>
 </head>
@@ -76,9 +75,7 @@
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg px-3 navbar-dark">
-    <span class="navbar-brand text-white">
-        🏢 Jagadeesh Employee Portal
-    </span>
+    <span class="navbar-brand text-white">🏢 Jagadeesh Employee Portal</span>
 
     <div class="ms-auto">
         <a href="/logout" class="btn btn-light btn-sm">Logout</a>
@@ -92,20 +89,31 @@
 
         <div class="profile-header">
             <h4>Welcome, <span th:text="${emp.name}"></span></h4>
-            <small>Your Employee Dashboard</small>
+            <small>Employee Profile Dashboard</small>
         </div>
 
         <div class="p-4">
 
             <div class="row">
+
                 <div class="col-md-6 mb-3">
                     <div class="info-label">Email</div>
                     <div class="info-value" th:text="${emp.email}"></div>
                 </div>
 
                 <div class="col-md-6 mb-3">
+                    <div class="info-label">Role</div>
+                    <span class="badge-role" th:text="${emp.role}"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
                     <div class="info-label">Department</div>
-                    <div class="info-value" th:text="${emp.department}"></div>
+                    <span class="badge-dept" th:text="${emp.department}"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <div class="info-label">Designation</div>
+                    <div class="info-value" th:text="${emp.designation}"></div>
                 </div>
 
                 <div class="col-md-6 mb-3">
@@ -129,6 +137,7 @@
                     <div class="info-label">Skills</div>
                     <div class="info-value" th:text="${emp.skills}"></div>
                 </div>
+
             </div>
 
         </div>
@@ -137,7 +146,7 @@
     <!-- UPDATE SKILLS -->
     <div class="card card-box mt-4 p-4">
 
-        <div class="section-title">✏️ Update Your Skills</div>
+        <div class="section-title">✏️ Update Skills</div>
 
         <form action="/employee/update-skills" method="post">
 
@@ -145,7 +154,7 @@
                    name="skills"
                    th:value="${emp.skills}"
                    class="form-control mb-3"
-                   placeholder="Enter updated skills (Java, DevOps...)">
+                   placeholder="Enter updated skills">
 
             <button class="btn btn-update w-100 text-white">
                 Update Skills

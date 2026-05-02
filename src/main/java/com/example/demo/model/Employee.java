@@ -23,4 +23,5 @@ public class Employee {
     private Double salary;
     private String manager;
     private String department;
+    private String designation;
 }
