@@ -1,0 +1,2 @@
+INSERT INTO employee (email, password, role)
+VALUES ('admin@gmail.com', '123', 'ADMIN');
